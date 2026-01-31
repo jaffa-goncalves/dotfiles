@@ -4,10 +4,12 @@ set -e
 editor="${EDITOR:-hx}"
 
 case "$1" in
-   -a) "$editor" ~/.config/shell/aliases.zsh ;;
+   -a) "$editor" ~/dotfiles/shell/aliases.sh ;;
    -f) "$editor" ~/dotfiles/shell/functions/functions.sh ;;
    -z) "$editor" ~/dotfiles/shell/zshrc ;;
    -s) "$editor" ~/dotfiles/starship/starship.toml ;;
+   -w) "$editor" ~/dotfiles/wezterm/wezterm.lua ;;
+   -h) "$editor" ~/dotfiles/helix/config.toml ;;
    *)
         echo "usage: config [ -a | -f | -z | -s  ]";;
 esac
