@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -e
+
+editor="${EDITOR:-hx}"
+
+case "$1" in
+   -a) "$editor" ~/.config/shell/aliases.zsh ;;
+   -f) "$editor" ~/dotfiles/shell/functions/functions.sh ;;
+   -z) "$editor" ~/dotfiles/shell/zshrc ;;
+   -s) "$editor" ~/dotfiles/starship/starship.toml ;;
+   *)
+        echo "usage: config [ -a | -f | -z | -s  ]";;
+esac
