@@ -1,0 +1,2 @@
+export MAMBA_EXE='$HOME/micromamba/bin/micromamba';
+export MAMBA_ROOT_PREFIX='$HOME/micromamba';

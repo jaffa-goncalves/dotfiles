@@ -1,15 +1,58 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-editor="${EDITOR:-hx}"
+EDITOR_CMD="${EDITOR:-hx}"
+DOTFILES="$HOME/dotfiles"
 
-case "$1" in
-   -a) "$editor" ~/dotfiles/shell/aliases.sh ;;
-   -f) "$editor" ~/dotfiles/shell/functions/functions.sh ;;
-   -z) "$editor" ~/dotfiles/shell/zshrc ;;
-   -s) "$editor" ~/dotfiles/starship/starship.toml ;;
-   -w) "$editor" ~/dotfiles/wezterm/wezterm.lua ;;
-   -h) "$editor" ~/dotfiles/helix/config.toml ;;
-   *)
-        echo "usage: config [ -a | -f | -z | -s  ]";;
+usage() {
+  cat <<EOF
+config <target>
+
+targets:
+  self         config manager
+  zshrc        zsh main config
+  zshenv       zsh environment
+  aliases      zsh aliases
+  functions    zsh functions
+  env          base env vars
+EOF
+  exit 1
+}
+
+target="${1:-}"
+[ -z "$target" ] && usage
+
+case "$target" in
+  self)
+  exec "$EDITOR_CMD" "$DOTFILES/bin/config"
+  ;;
+  zshrc)
+    exec "$EDITOR_CMD" "$DOTFILES/shell/zshrc"
+    ;;
+  zshenv)
+    exec "$EDITOR_CMD" "$DOTFILES/shell/zshenv"
+    ;;
+  aliases)
+    exec "$EDITOR_CMD" "$DOTFILES/shell/aliases.sh"
+    ;;
+  functions)
+    exec "$EDITOR_CMD" "$DOTFILES/shell/functions/functions.sh"
+    ;;
+  env)
+    exec "$EDITOR_CMD" "$DOTFILES/env/base.env"
+    ;;
+  starship)
+     exec "$EDITOR_CMD" "$DOTFILES/starship/starship.toml"
+     ;;
+  wezterm)
+    exec "$EDITOR_CMD" "$DOTFILES/wezterm/wezterm.lua"
+    ;;
+  helix)
+    exec "$EDITOR_CMD" "$DOTFILES/helix/config.toml"
+    ;;
+  
+  *)
+    echo "config: unknown target '$target'"
+    usage
+    ;;
 esac
