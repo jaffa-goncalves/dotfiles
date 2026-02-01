@@ -1,6 +1,3 @@
 alias fnconfig="hx ~/dotfiles/shell/functions/functions.sh"
 alias reload="source ~/dotfiles/shell/zshrc"
-alias ls="eza --icons=always"
-alias ll="eza -lah --icons=always"
-alias tree="eza --tree"
 alias rs="exec zsh"

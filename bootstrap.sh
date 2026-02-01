@@ -52,14 +52,28 @@ micromamba_arch() {
   esac
 }
 
-fd_platform() {
+github_release_platform() {
   case "$PLATFORM" in
     macos) echo "apple-darwin" ;;
     linux) echo "unkown-linux-gnu";;
   esac
 }
 
-fd_arch() {
+fzf_release_platform() {
+  case "$PLATFORM" in
+    macos) echo "darwin" ;;
+    linux) echo "linux";;
+  esac
+}
+
+fzf_release_arch() {
+  case "$ARCH" in
+    arm64) echo "arm64";;
+    x86_64) echo "amd64";;
+  esac
+}
+
+github_release_arch() {
   case "$ARCH" in
     arm64) echo "aarch64" ;;
     x86_64) echo "x86_64" ;;
@@ -186,8 +200,8 @@ install_fd() {
     return
   fi
 
-  os="$(fd_platform)"
-  arch="$(fd_arch)"
+  os="$(github_release_platform)"
+  arch="$(github_release_arch)"
 
   version="v10.3.0"
   url="https://github.com/sharkdp/fd/releases/download/${version}/fd-${version}-${arch}-${os}.tar.gz"
@@ -215,10 +229,84 @@ install_fd() {
   echo "fd installed successfully"
 }
 
+install_rg() {
+  if command -v rg >/dev/null 2>&1; then
+    echo "rg is already installed"
+    return
+  fi
+
+  os="$(github_release_platform)"
+  arch="$(github_release_arch)"
+
+  version="15.1.0"
+  url="https://github.com/BurntSushi/ripgrep/releases/download/${version}/ripgrep-${version}-${arch}-${os}.tar.gz"
+
+  echo "$url"
+
+  tmp="$(mktemp -d)"
+
+  archive="$tmp/rg.tar.gz"
+
+  mkdir -p "$HOME/.local/bin"
+
+  curl -L "$url" -o "$archive"
+  tar -xzf "$archive" -C "$tmp"
+
+  if ! ls "$tmp"/ripgrep*/rg >/dev/null 2>&1; then
+    echo "rg binary not found after extraction"
+    rm -rf "$tmp"
+    return 1
+  fi
+
+  mv "$tmp"/ripgrep*/rg "$HOME/.local/bin/rg"
+  chmod +x "$HOME/.local/bin/rg"
+  rm -rf "$tmp"
+
+  echo "rg installed successfully"
+
+}
+
+install_fzf() {
+  if command -v fzf >/dev/null 2>&1; then
+    echo "fzf already installed"
+    return
+  fi
+
+  os="$(fzf_release_platform)"
+  arch="$(fzf_release_arch)"
+
+  version="0.67.0"
+  url="https://github.com/junegunn/fzf/releases/download/v${version}/fzf-${version}-${os}_${arch}.tar.gz"
+
+  echo "$url"
+
+  tmp="$(mktemp -d)"
+  archive="$tmp/fzf.tar.gz"
+
+  mkdir -p "$HOME/.local/bin"
+
+  curl -L "$url" -o "$archive"
+  tar -xzf "$archive" -C "$tmp"
+
+  if [ ! -x "$tmp/fzf" ]; then
+    echo "fzf binary not found after extraction"
+    rm -rf "$tmp"
+    return 1
+  fi
+
+  mv "$tmp/fzf" "$HOME/.local/bin/fzf"
+  chmod +x "$HOME/.local/bin/fzf"
+  rm -rf "$tmp"
+
+  echo "fzf installed successfully"
+}
+
 main() {
   install_zoxide
-  install_eza
   install_fd
+  install_rg
+  install_fzf
+  install_eza
   install_micromamba
   init_micromamba
   install_starship

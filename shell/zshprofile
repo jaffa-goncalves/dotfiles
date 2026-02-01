@@ -1,0 +1,13 @@
+# Homebrew environment
+if [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# Ensure tmux main session exists (user-session lifecycle)
+if command -v tmux >/dev/null 2>&1; then
+  if ! tmux has-session -t main 2>/dev/null; then
+    tmux new -d -s main
+  fi
+fi
+
+source ~/.zshrc.user

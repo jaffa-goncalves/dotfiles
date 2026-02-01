@@ -1,0 +1,18 @@
+# envs/base-python/environment.yml
+name: base-python
+
+channels:
+  - conda-forge
+  
+dependencies:
+  - python=3.12
+  - ipython
+  - numpy
+  - scipy
+  - matplotlib
+  - jupyterlab
+
+tooling:  
+  - mypy
+  - ruff
+  - pytest

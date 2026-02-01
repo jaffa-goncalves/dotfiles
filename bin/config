@@ -12,6 +12,7 @@ targets:
   self         config manager
   zshrc        zsh main config
   zshenv       zsh environment
+  zshprofile   zsh profile
   aliases      zsh aliases
   functions    zsh functions
   env          base env vars
@@ -31,6 +32,9 @@ case "$target" in
     ;;
   zshenv)
     exec "$EDITOR_CMD" "$DOTFILES/shell/zshenv"
+    ;;
+  zshprofile)
+    exec "$EDITOR_CMD" "$DOTFILES/shell/zshprofile"
     ;;
   aliases)
     exec "$EDITOR_CMD" "$DOTFILES/shell/aliases.sh"

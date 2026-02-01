@@ -1,1 +1,8 @@
+# ~/.zshenv
+
+# Load base environment (PATH, core vars)
+if [ -f "$HOME/dotfiles/env/base.env" ]; then
+  source "$HOME/dotfiles/env/base.env"
+fi
+
 echo "Shell Environment loaded" 
