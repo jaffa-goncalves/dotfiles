@@ -59,6 +59,13 @@ github_release_platform() {
   esac
 }
 
+starship_platform() {
+  case "$PLATFORM" in
+    macos) echo "Darwin" ;;
+    linux) echo "Linux"  ;;
+  esac
+}
+
 fzf_release_platform() {
   case "$PLATFORM" in
     macos) echo "darwin" ;;
@@ -115,14 +122,110 @@ init_micromamba() {
 }
 
 install_starship() {
+  local platform="$1"
   if command -v starship >/dev/null 2>&1; then
     echo "Starship already installed"
     return
   fi
 
-  echo "Installing Starsthip"
-  curl -sS https://starship.rs/install.sh | sh -s -- -y
+  echo "Installing Starship"
+  case "$platform" in
+    Darwin)
+      brew install starship
+      ;;
+    Linux)
+      echo "No Installer"
+      ;;
+    *)
+      echo "No Installer"
+      ;;
+  esac
+  echo "Starship Installed"
 }
+
+install_zsh_autosuggest() {
+  local platform="$1"
+  case "$platform" in
+    Darwin)
+        if brew list zsh-autosuggestions >/dev/null 2>&1; then
+    echo "zsh-autosuggestions already installed"
+  else
+    echo "Insalling zsh autosuggestions"
+    brew install zsh-autosuggestions
+  fi
+      ;;
+    Linux)
+      echo "No Installer"
+      ;;
+    *)
+      echo "No Installer"
+      ;;
+  esac
+}
+
+install_zsh_syntax() {
+  local platform="$1"
+  case "$platform" in
+    Darwin)
+        if brew list zsh-syntax-highlighting >/dev/null 2>&1; then
+    echo "zsh-syntax-highlighting already installed"
+  else
+    echo "Insalling zsh syntax highlighting"
+    brew install zsh-syntax-highlighting
+  fi
+      ;;
+    Linux)
+      echo "No Installer"
+      ;;
+    *)
+      echo "No Installer"
+      ;;
+  esac
+}
+
+install_helix() {
+  local platform="$1"
+  case "$platform" in
+    Darwin)
+        if brew list helix >/dev/null 2>&1; then
+    echo "helix already installed"
+  else
+    echo "Insalling helix"
+    brew install helix
+  fi
+      ;;
+    Linux)
+      echo "No Installer"
+      ;;
+    *)
+      echo "No Installer"
+      ;;
+  esac
+}
+
+
+
+ensure_package() {
+  local platform="$1"
+  local item="$2"
+  case "$platform" in
+    Darwin)
+        if brew list "$item" >/dev/null 2>&1; then
+    echo "$item already installed"
+  else
+    echo "Installing $item"
+    brew install "$item"
+  fi
+      ;;
+    Linux)
+      echo "No Installer"
+      ;;
+    *)
+      echo "No Installer"
+      ;;
+  esac
+}
+
 
 install_zoxide() {
   if command -v zoxide >/dev/null 2>&1; then
@@ -302,14 +405,23 @@ install_fzf() {
 }
 
 main() {
-  install_zoxide
-  install_fd
-  install_rg
-  install_fzf
-  install_eza
-  install_micromamba
-  init_micromamba
-  install_starship
+  ensure_package "$(uname -s)" uv
+  ensure_package "$(uname -s)" micromamba
+  ensure_package "$(uname -s)" llvm
+  ensure_package "$(uname -s)" rustup
+  ensure_package "$(uname -s)" fnm
+  ensure_package "$(uname -s)" tmux
+  ensure_package "$(uname -s)" eza
+  ensure_package "$(uname -s)" fd
+  ensure_package "$(uname -s)" fzf
+  ensure_package "$(uname -s)" rg
+  ensure_package "$(uname -s)" zoxide 
+  ensure_package "$(uname -s)" starship
+  ensure_package "$(uname -s)" zsh-autosuggestions
+  ensure_package "$(uname -s)" zsh-syntax-highlighting
+  ensure_package "$(uname -s)" helix
+  ensure_package "$(uname -s)" font-jetbrains-mono-nerd-font
+  ensure_package "$(uname -s)" ollama
 }
 
 main

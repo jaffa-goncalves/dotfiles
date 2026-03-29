@@ -22,7 +22,7 @@ export LANG=en_US.UTF-8
 
 export EDITOR=/opt/homebrew/bin/hx
 export VISUAL=/opt/homebrew/bin/hx
-
+export PATH="$HOME/.local/bin:$PATH"
 
 # Alias imports
 source ~/dotfiles/shell/aliases.sh
@@ -34,3 +34,15 @@ done
 
 # Loads Tools
 source ~/dotfiles/shell/loaders/tools.sh
+
+# tmux
+
+if command -v tmux >/dev/null 2>&1; then
+  if [ -z "$TMUX" ]; then
+    if tmux has-session -t main 2>/dev/null; then
+      exec tmux attach -t main
+    else
+      exec tmux new -s main
+    fi
+  fi
+fi
