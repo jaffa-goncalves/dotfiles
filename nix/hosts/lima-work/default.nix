@@ -4,10 +4,12 @@
   backend = "home-manager";
 
   users = [
-    ../../homes/jaffa
+    {
+      home = ../../homes/jaffa;
+      profile = "work";
+    }
   ];
 
   primaryUser = "jaffa";
-
   modules = [];
 }

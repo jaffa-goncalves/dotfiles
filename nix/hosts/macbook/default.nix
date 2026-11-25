@@ -3,7 +3,10 @@
   platform = "aarch64-darwin";
 
   users = [
-    ../../homes/jaffa
+    {
+      home = ../../homes/jaffa;
+      profile = "personal";
+    }
   ];
 
   primaryUser = "jaffa";

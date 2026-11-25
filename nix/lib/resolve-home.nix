@@ -1,4 +1,4 @@
-{ lib, system, path }:
+{ lib, system, path, profile }:
 
 let
   manifest = import path;
@@ -19,11 +19,18 @@ let
     else "/home/${username}"
   );
 
+  profileCollections = manifest.profiles or {};
+
+  selectedProfiles =
+    profileCollections.${profile} or (
+      throw "Unknown profile '${profile}' for user '${username}'"
+    );
+
   programs = import ./resolve-programs.nix {
     inherit lib system;
 
     profiles = lib.unique (
-      (manifest.profiles or [])
+      selectedProfiles
       ++ (platformConfig.profiles or [])
     );
   };

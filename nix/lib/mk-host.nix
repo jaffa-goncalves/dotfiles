@@ -15,8 +15,11 @@ let
 
   # Resolve user manifests.
   resolvedHomes = map
-    (path: import ./resolve-home.nix {
-      inherit lib system path;
+    (user: import ./resolve-home.nix {
+      inherit lib system;
+
+      path = user.home;
+      profile = user.profile;
     })
     host.users;
 
@@ -89,8 +92,9 @@ let
 
   standaloneHome = inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = import inputs.nixpkgs {
-      inherit system;
-    };
+  inherit system;
+  config.allowUnfree = true;
+};
 
     extraSpecialArgs = {
       inherit inputs;

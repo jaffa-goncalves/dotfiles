@@ -1,6 +1,6 @@
 {
   identity = import ./identity.nix;
-  profiles = import ./profiles.nix;
+  profiles = import ./profiles;
 
   home = [
     ./environment.nix
