@@ -11,17 +11,13 @@ main() {
     fi
 
     # Bootstrap sources.
-local owner="${GITHUB_OWNER:?GITHUB_OWNER must be specified}"
-local repo="${DOTFILES_REPO:-dotfiles}"
-local ref="${DOTFILES_REF:-main}"
-local version="${NIX_VERSION:-2.36.0}"
+    local owner="${GITHUB_OWNER:?GITHUB_OWNER must be specified}"
+    local repo="${DOTFILES_REPO:-dotfiles}"
+    local ref="${DOTFILES_REF:-main}"
+    local version="${NIX_VERSION:-2.36.0}"
 
-local base_url="https://raw.githubusercontent.com/$owner/$repo/$ref/nix"
-local installer_url="https://releases.nixos.org/nix/nix-$version/install"
-
-    local base_url="https://raw.githubusercontent.com/$repo/$ref/nix"
+    local base_url="https://raw.githubusercontent.com/$owner/$repo/$ref/nix"
     local installer_url="https://releases.nixos.org/nix/nix-$version/install"
-
     local os
     os="$(uname -s)"
 
