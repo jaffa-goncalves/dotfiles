@@ -1,0 +1,44 @@
+# Work virtual machine
+vmType: vz
+arch: aarch64
+
+cpus: 6
+memory: "8GiB"
+disk: "100GiB"
+
+images:
+  - location: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-arm64.img"
+    arch: aarch64
+
+user:
+  name: jaffa
+  home: "/home/{{.User}}"
+  shell: /bin/bash
+
+mounts: []
+
+ssh:
+  loadDotSSHPubKeys: false
+  forwardAgent: false
+
+containerd:
+  system: false
+  user: false
+
+provision:
+  - mode: system
+    script: |
+      #!/bin/bash
+      set -euo pipefail
+
+      apt-get update
+      apt-get install -y curl git ca-certificates xz-utils
+
+  - mode: user
+    script: |
+      #!/bin/bash
+      set -euo pipefail
+
+      curl -fsSL \
+        https://raw.githubusercontent.com/USERNAME/dotfiles/main/nix/bootstrap.sh \
+        | bash

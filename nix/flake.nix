@@ -25,9 +25,23 @@
       mkHost = import ./lib/mk-host.nix;
     in
     {
-      darwinConfigurations.macbook = mkHost {
-        inherit inputs;
-        host = import ./hosts/macbook;
+      # Darwin hosts.
+      darwinConfigurations = {
+        macbook = mkHost {
+          inherit inputs;
+          host = import ./hosts/macbook;
+        };
       };
+
+      # Conventional Linux hosts.
+      homeConfigurations = {
+        lima-work = mkHost {
+          inherit inputs;
+          host = import ./hosts/lima-work;
+        };
+      };
+
+      # Future NixOS hosts.
+      nixosConfigurations = {};
     };
 }
