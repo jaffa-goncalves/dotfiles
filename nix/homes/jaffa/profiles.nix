@@ -1,0 +1,15 @@
+[
+  ../../profiles/terminal.nix
+  ../../profiles/development.nix
+  ../../profiles/languages.nix
+  ../../profiles/nix.nix
+  ../../profiles/desktop.nix
+  ../../profiles/ai.nix
+  ../../profiles/networking.nix
+  ../../profiles/virtualization.nix
+  ../../profiles/browsing.nix
+  ../../profiles/communication.nix
+  ../../profiles/documents.nix
+  ../../profiles/media.nix
+  ../../profiles/gaming.nix
+]

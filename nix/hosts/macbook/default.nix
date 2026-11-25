@@ -1,43 +1,13 @@
-{ inputs, ... }:
-
 {
-  # Machine identity
-  networking.hostName = "Jaffa-Saahs-MacBook-Pro";
+  hostname = "Jaffa-Saahs-MacBook-Pro";
+  platform = "aarch64-darwin";
 
-  # Primary macOS user
-  system.primaryUser = "jaffa";
-
-  users.users.jaffa = {
-    home = "/Users/jaffa";
-  };
-
-  # Import system configuration modules
-  imports = [
-    ../../modules/darwin
+  users = [
+    ../../homes/jaffa
   ];
 
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  primaryUser = "jaffa";
+  stateVersion = 6;
 
-  home-manager = {
-    backupFileExtension = "pre-nix";
-
-    useGlobalPkgs = true;
-    useUserPackages = true;
-
-    extraSpecialArgs = {
-      inherit inputs;
-    };
-
-    users.jaffa = import ../../modules/home;
-  };
-
-  # Homebrew installation management
-  nix-homebrew = {
-    enable = false;
-    user = "jaffa";
-    autoMigrate = true;
-  };
-
-  # nix-darwin compatibility version
-  system.stateVersion = 6;
+  modules = [];
 }

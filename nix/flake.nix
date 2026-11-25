@@ -1,5 +1,5 @@
 {
-description = "Declarative personal computing infrastructure";
+  description = "Declarative personal computing infrastructure";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -14,31 +14,20 @@ description = "Declarative personal computing infrastructure";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
-
     hermes-agent = {
       url = "github:ak2k/hermes-agent/fix/nix-pnpm-deps-darwin-hash";
     };
   };
 
-  outputs =
-    inputs@{
-      nix-darwin,
-      home-manager,
-      nix-homebrew,
-      ...
-    }:
-    {
-      darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
-        specialArgs = {
-          inherit inputs;
-        };
+  outputs = inputs@{ ... }:
 
-        modules = [
-          ./hosts/macbook
-          home-manager.darwinModules.home-manager
-          nix-homebrew.darwinModules.nix-homebrew
-        ];
+    let
+      mkHost = import ./lib/mk-host.nix;
+    in
+    {
+      darwinConfigurations.macbook = mkHost {
+        inherit inputs;
+        host = import ./hosts/macbook;
       };
     };
 }

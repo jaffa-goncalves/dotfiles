@@ -1,0 +1,3 @@
+{
+  macos.home = ./macos.nix;
+}

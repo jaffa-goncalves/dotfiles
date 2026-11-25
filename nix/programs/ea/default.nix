@@ -1,0 +1,3 @@
+{
+  darwin = ./darwin.nix;
+}
