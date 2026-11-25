@@ -1,0 +1,48 @@
+
+# History Set-Up
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=5000
+SAVEHIST=5000
+
+setopt \
+SHARE_HISTORY \
+HIST_IGNORE_DUPS \
+INC_APPEND_HISTORY \
+HIST_IGNORE_SPACE \
+APPEND_HISTORY
+
+autoload -Uz compinit
+compinit
+
+#Keybindings
+bindkey -e
+
+
+export LANG=en_US.UTF-8
+
+export EDITOR=/opt/homebrew/bin/hx
+export VISUAL=/opt/homebrew/bin/hx
+export PATH="$HOME/.local/bin:$PATH"
+
+# Alias imports
+source ~/dotfiles/shell/aliases.sh
+
+# Load function imports
+for file in ~/dotfiles/shell/functions/*.sh; do
+    source "$file"
+done
+
+# Loads Tools
+source ~/dotfiles/shell/loaders/tools.sh
+
+# tmux
+
+if command -v tmux >/dev/null 2>&1; then
+  if [ -z "$TMUX" ]; then
+    if tmux has-session -t main 2>/dev/null; then
+      exec tmux attach -t main
+    else
+      exec tmux new -s main
+    fi
+  fi
+fi

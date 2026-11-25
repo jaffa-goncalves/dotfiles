@@ -1,0 +1,24 @@
+# OS Junk
+.DS_Store
+
+#secrets
+*.local
+.env
+.env.*
+
+#keys
+*.pem
+*.key
+id_*
+
+
+#logs
+*.log
+
+#tmpfiles
+*~
+*.swp
+
+#Nix Build Outputs
+result
+result-*
