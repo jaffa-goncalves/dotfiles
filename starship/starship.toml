@@ -39,10 +39,26 @@ crust     = "#11111b"
 style = "blue"
 
 [git_branch]
+symbol = " "
 style = "mauve"
+format = 'on [$symbol$branch]($style) '
 
 [git_status]
-style = "peach"
+format = '($all_status$ahead_behind) '
+
+conflicted = '[=${count}](bold red) '
+modified = '[!${count}](yellow) '
+staged = '[+${count}](green) '
+untracked = '[?${count}](sky) '
+deleted = '[-${count}](red) '
+renamed = '[»${count}](lavender) '
+stashed = '[≡${count}](peach) '
+typechanged = '[~${count}](flamingo) '
+
+ahead = '[⇡${count}](blue) '
+behind = '[⇣${count}](peach) '
+diverged = '[⇡${ahead_count}](blue) [⇣${behind_count}](peach) '
+up_to_date = ''
 
 [character]
 success_symbol = "[❯](green)"
